@@ -1,0 +1,35 @@
+export const sampleProducts = [
+    {
+        id: 1,
+        name: 'TanStack Router Pro',
+        description: 'ABC',
+        price: 99.99,
+        badge: 'New',
+        rating: 5,
+        reviews: 127,
+        image: '/tanstack-circle-logo.png',
+        inventory: 'in-stock',
+    },
+    {
+        id: 2,
+        name: 'TanStack Query Enterprise',
+        description: 'DEF',
+        price: 149.99,
+        badge: 'New',
+        rating: 4.9,
+        reviews: 234,
+        image: '/tanstack-circle-logo.png',
+        inventory: 'in-stock',
+    },
+    {
+        id: 3,
+        name: 'TanStack Table Premium',
+        description: 'GHI',
+        price: 79.99,
+        badge: 'New',
+        rating: 3.5,
+        reviews: 20,
+        image: '/tanstack-circle-logo.png',
+        inventory: 'in-stock',
+    }
+]
