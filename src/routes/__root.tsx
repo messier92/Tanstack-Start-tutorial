@@ -1,4 +1,6 @@
 import { HeadContent, Scripts, createRootRouteWithContext } from '@tanstack/react-router'
+import { useEffect } from 'react'
+import { client } from '@/lib/appwrite'
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { TanStackDevtools } from '@tanstack/react-devtools'
 import Header from '../components/Header'
@@ -37,6 +39,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   const { queryClient } = Route.useRouteContext();
+
+  useEffect(() => {
+    client.ping().then(() => {
+      console.log('Appwrite ping success');
+    }).catch((error) => {
+      console.error('Appwrite ping failed', error);
+    });
+  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>

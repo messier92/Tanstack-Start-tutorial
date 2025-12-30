@@ -8,10 +8,12 @@ import {
 import { useQuery } from '@tanstack/react-query'
 import { createFileRoute } from '@tanstack/react-router'
 import { createMiddleware, createServerFn, json } from '@tanstack/react-start'
-import { sampleProducts } from '@/db/seed';
 
 const fetchProducts = createServerFn({ method: 'GET' }).handler(async () => {
-    return sampleProducts
+    // Map products to ensure all fields match ProductCard expectations
+    const { getAllProducts } = await import('@/data/products')
+    const data = await getAllProducts()
+    return data
 })
 
 const loggerMiddleware = createMiddleware().server(
@@ -29,6 +31,7 @@ const loggerMiddleware = createMiddleware().server(
 export const Route = createFileRoute('/products/')({
     component: RouteComponent,
     loader: async () => {
+        console.log('---loader--')
         return fetchProducts()
     },
     server: {
@@ -37,7 +40,7 @@ export const Route = createFileRoute('/products/')({
             POST: async ({ request }) => {
                 const body = await request.json()
                 return json({ message: 'Hello, world from POST request!', body })
-            }
+            },
         },
     },
 })
@@ -49,9 +52,7 @@ function RouteComponent() {
         queryFn: () => fetchProducts(),
         initialData: products,
     })
-
-    console.log('---data---', data)
-
+    console.log('---data--', data)
     return (
         <div className="space-y-6">
             <section className="space-y-4 max-w-6xl mx-auto">

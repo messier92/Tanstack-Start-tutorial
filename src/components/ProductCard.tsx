@@ -1,7 +1,7 @@
-//import { ProductSelect } from '@/db/schema'
+import { ProductSelect } from '@/db/schema'
 import { cn } from '@/lib/utils'
-// import { mutateCartFn } from '@/routes/cart'
-//import { useQueryClient } from '@tanstack/react-query'
+import { mutateCartFn } from '@/routes/cart'
+import { useQueryClient } from '@tanstack/react-query'
 import { Link, useRouter } from '@tanstack/react-router'
 import { ShoppingBagIcon } from 'lucide-react'
 import { Button } from './ui/button'
@@ -20,13 +20,13 @@ const inventoryTone = {
     preorder: 'bg-indigo-50 text-indigo-700 border-indigo-100',
 }
 
-export function ProductCard({ product }: { product: { id: number, name: string, description: string, price: number, rating: number, reviews: number, inventory: string, badge: string } }) {
+export function ProductCard({ product }: { product: ProductSelect }) {
     const router = useRouter()
-    //  const queryClient = useQueryClient()
+    const queryClient = useQueryClient()
     return (
         <Link
             to="/products/$id"
-            params={{ id: 'product.id' }}
+            params={{ id: product.id }}
             className="cursor-pointer h-full hover:-translate-y-1
      hover:shadow-lg transition"
         >
@@ -73,17 +73,17 @@ export function ProductCard({ product }: { product: { id: number, name: string, 
                             console.log('add to cart')
                             e.preventDefault()
                             e.stopPropagation()
-                            //                            await mutateCartFn({
-                            //                                data: {
-                            //                                    action: 'add',
-                            //                                    productId: product.id,
-                            //                                    quantity: 1,
-                            //                                },
-                            //                            })
+                            await mutateCartFn({
+                                data: {
+                                    action: 'add',
+                                    productId: product.id,
+                                    quantity: 1,
+                                },
+                            })
                             await router.invalidate({ sync: true })
-                            //                            await queryClient.invalidateQueries({
-                            //                                queryKey: ['cart-items-data'],
-                            //                            })
+                            await queryClient.invalidateQueries({
+                                queryKey: ['cart-items-data'],
+                            })
                         }}
                     >
                         <ShoppingBagIcon size={16} /> Add to Cart
